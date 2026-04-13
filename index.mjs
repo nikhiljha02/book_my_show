@@ -24,7 +24,12 @@ const pool = new pg.Pool({
 const app = new express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use("/api/auth", authRoute);
 
 app.get("/", (req, res) => {

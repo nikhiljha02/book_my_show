@@ -6,7 +6,7 @@ import loginDto from "./login.dto.js";
 
 const router = Router();
 
-router.post("/register", validate(RegisterDto), controller.register);
+router.post("/signup", validate(RegisterDto), controller.register);
 router.post("/login", validate(loginDto), controller.login);
 
 export default router;
