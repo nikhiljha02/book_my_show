@@ -439,27 +439,34 @@
             }
 
             td.addEventListener("click", async function (e) {
-              const response = await fetch(apiUrl("/api/auth/authCheck"), {
-                method: "POST",
-                credentials: "include",
-              });
-
-              const result = await response.json();
-              console.log(result);
-              if (result.status == 401) {
-                alert("please login or signup first");
-                return false;
-              }
-
-              const currentTd = e.target;
-              if (currentTd.classList.contains("cursor-not-allowed")) {
-                return;
-              }
-
               try {
+                const response = await fetch(apiUrl("/api/auth/authCheck"), {
+                  method: "POST",
+                  credentials: "include",
+                });
+
+                if (!response.ok) {
+                  if (response.status === 401 || response.status === 500) {
+                    alert("Please login or signup first");
+                    return false;
+                  }
+                  throw new Error(`Auth check failed: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log(result);
+
+                const currentTd = e.target;
+                if (currentTd.classList.contains("cursor-not-allowed")) {
+                  return;
+                }
+
                 const id = j[i].id;
                 const name = result.user;
-                if (!name) return;
+                if (!name) {
+                  alert("Please login or signup first");
+                  return;
+                }
 
                 const res = await fetch(
                   apiUrl(`/${id}/${encodeURIComponent(name)}`),
@@ -468,7 +475,7 @@
                 const data = await res.json();
 
                 if (data.error) {
-                  alert("FAILED! Couldn't book! already booked.");
+                  alert("FAILED! Couldn't book! Already booked.");
                 } else {
                   alert("Booked successfully!");
                   currentTd.className = `${baseClasses} bg-rose-500/10 text-rose-500/60 border border-rose-500/20 cursor-not-allowed`;
@@ -482,10 +489,10 @@
                       `;
                 }
               } catch (ex) {
-                alert("error booking " + ex);
+                console.error("Booking error:", ex);
+                alert("Error during booking: " + ex.message);
               }
             });
-
             tr.appendChild(td);
             tbl.appendChild(tr);
           }

@@ -13,7 +13,9 @@ const authMiddle = async (req, res, next) => {
 
     return next(); // ✅ return added
   } catch (err) {
-    return res.status(401).json({ status: 401, message: err });
+    return res
+      .status(401)
+      .json({ status: 401, message: err.message || "Invalid token" });
   }
 };
 export default authMiddle;
