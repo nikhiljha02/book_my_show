@@ -404,7 +404,7 @@
       // Seat booking logic (UNCHANGED)
       async function run() {
         const tbl = document.getElementById("tbl");
-        const res = await fetch("/seats");
+        const res = await fetch("https://book-my-show-atxj.onrender.com/seats");
         const resarray = await res.json();
         const j = resarray.sort((a, b) => a.id - b.id);
         let tr;
@@ -457,7 +457,10 @@
               const name = result.user;
               if (!name) return;
 
-              const res = await fetch(`/${id}/${name}`, { method: "PUT" });
+              const res = await fetch(
+                `https://book-my-show-atxj.onrender.com/${id}/${name}`,
+                { method: "PUT" },
+              );
               const data = await res.json();
 
               if (data.error) {

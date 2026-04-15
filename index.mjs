@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "https://booknow-flax.vercel.app",
     credentials: true,
   }),
 );
