@@ -285,6 +285,8 @@
         } else {
           setSessions(result);
           showPopup(`👋 Welcome back ${result.user.name}`);
+          document.querySelector(".loginPass").value = "";
+          document.querySelector("#loginemail").value = "";
         }
       }
 
@@ -319,6 +321,10 @@
         } else if (result !== "undefined") {
           setSessions(result);
           showPopup(`🎉 Welcome ${result.user.name}`);
+          document.querySelector(".userName").value = "";
+          document.querySelector("#signupModal [type='email']").value = "";
+          document.querySelector(".firstPass").value = "";
+          document.querySelector(".cnfPass").value = "";
         }
       }
 
