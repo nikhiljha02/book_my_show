@@ -22,9 +22,8 @@ const userSchema = new mongoose.Schema(
       required: [true, " password is required"],
       minLength: 8,
       select: false,
-      maxLength: 12,
     },
-    iseVerified: {
+    isVerified: {
       type: Boolean,
       default: false,
     },
