@@ -12,14 +12,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 8080;
 
 const pool = new pg.Pool({
-  host: "localhost",
-  port: 5433,
-  user: "postgres",
-  password: "postgres",
-  database: "book_my_show",
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   max: 20,
-  connectionTimeoutMillis: 0,
   idleTimeoutMillis: 0,
+  connectionTimeoutMillis: 0,
 });
 
 const app = new express();
