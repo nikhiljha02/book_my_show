@@ -149,7 +149,7 @@ const authCheck = async (req, res) => {
 
     return res.status(200).json({ user: user.name, msg: "booked" });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ status: 500, error: err.message });
   }
 };
 
