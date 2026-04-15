@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "Frontend")));
 const allowedOrigins = [
   "http://localhost:8080",
   "http://127.0.0.1:5500",
-  "https://booknow-flax.vercel.app",
+  "https://book-my-show-atxj.onrender.com",
 ];
 
 app.use(
@@ -28,7 +28,7 @@ app.use(
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
-      }  else {
+      } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
