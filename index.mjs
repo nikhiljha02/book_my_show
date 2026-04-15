@@ -35,7 +35,7 @@ app.use(
 app.use("/api/auth", authRoute);
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "../Frontend/index.html");
 });
 //get all seats
 app.get("/seats", async (req, res) => {
