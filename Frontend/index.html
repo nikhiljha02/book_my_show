@@ -231,6 +231,8 @@
     <script>
       // Modal controls
       let currentUser = "";
+      const API_BASE_URL = window.location.origin;
+      const apiUrl = (path) => `${API_BASE_URL}${path}`;
       window.addEventListener("DOMContentLoaded", () => {
         const user = localStorage.getItem("user");
         if (user !== "undefined" && user !== null) {
@@ -264,20 +266,17 @@
       async function login() {
         let email = document.querySelector("#loginemail").value;
         let password = document.querySelector(".loginPass").value;
-        const response = await fetch(
-          "https://book-my-show-atxj.onrender.com/api/auth/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify({
-              email,
-              password,
-            }),
+        const response = await fetch(apiUrl("/api/auth/login"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          credentials: "include",
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        });
 
         const result = await response.json();
         // console.log(result);
@@ -300,21 +299,18 @@
           return false;
         }
 
-        const response = await fetch(
-          "https://book-my-show-atxj.onrender.com/api/auth/signup",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify({
-              name,
-              email,
-              password,
-            }),
+        const response = await fetch(apiUrl("/api/auth/signup"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          credentials: "include",
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+          }),
+        });
 
         const result = await response.json();
         // console.log(result);
@@ -338,19 +334,16 @@
 
       async function logout() {
         // console.log(currentUser._id);
-        const response = await fetch(
-          "https://book-my-show-atxj.onrender.com/api/auth/logout",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify({
-              userId: currentUser._id,
-            }),
+        const response = await fetch(apiUrl("/api/auth/logout"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          credentials: "include",
+          body: JSON.stringify({
+            userId: currentUser._id,
+          }),
+        });
         document.getElementById("topusername").innerText = "Guest";
         localStorage.removeItem("user");
         document.querySelector("#userEmail").innerHTML = "guest@gmail.com";
@@ -405,9 +398,7 @@
       async function run() {
         const tbl = document.getElementById("tbl");
         try {
-          const res = await fetch(
-            "https://book-my-show-atxj.onrender.com/seats",
-          );
+          const res = await fetch(apiUrl("/seats"));
           if (!res.ok) {
             const errorData = await res.json().catch(() => null);
             console.error("Failed to load seats", errorData || res.statusText);
@@ -448,13 +439,10 @@
             }
 
             td.addEventListener("click", async function (e) {
-              const response = await fetch(
-                "https://book-my-show-atxj.onrender.com/api/auth/authCheck",
-                {
-                  method: "POST", // or POST if your backend requires it
-                  credentials: "include", // ✅ THIS sends cookies
-                },
-              );
+              const response = await fetch(apiUrl("/api/auth/authCheck"), {
+                method: "POST",
+                credentials: "include",
+              });
 
               const result = await response.json();
               console.log(result);
@@ -474,7 +462,7 @@
                 if (!name) return;
 
                 const res = await fetch(
-                  `https://book-my-show-atxj.onrender.com/${id}/${name}`,
+                  apiUrl(`/${id}/${encodeURIComponent(name)}`),
                   { method: "PUT" },
                 );
                 const data = await res.json();
