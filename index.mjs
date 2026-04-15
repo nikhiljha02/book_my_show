@@ -26,9 +26,21 @@ app.use(express.static(__dirname));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+const allowedOrigins = [
+  "http://localhost:8080",
+  "http://127.0.0.1:5500",
+  "https://booknow-flax.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://booknow-flax.vercel.app",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
