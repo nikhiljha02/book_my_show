@@ -74,6 +74,7 @@ const loginService = async (req, res) => {
     // console.log(userPass);
     if (!userPass) {
       return res.status(401).json({
+        status: 401,
         message: "invalid credentials",
       });
     }
